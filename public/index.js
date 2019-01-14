@@ -146,6 +146,44 @@ const actors = [{
   }]
 }];
 
+/*var price=0;
+var bari;
+for(var i=0; i<events.length;i++)
+{
+  bari=bars.find(bar => bar.id === events[i]["barId"] );
+  price=events[i]["time"]*bari["pricePerHour"] + events[i]["persons"]*bari["pricePerPerson"];
+  document.write(price + '<br/>');
+}
+events[0]["price"]=50;
+document.write(events[0]["price"] + '<br/>');*/
+
+function booking_price(bars, events)
+{
+  var price=0;
+  var bari;
+  for(var i=0; i<events.length;i++)
+  {
+    bari=bars.find(bar => bar.id === events[i]["barId"] );
+
+    price=events[i]["time"]*bari["pricePerHour"] + events[i]["persons"]*bari["pricePerPerson"];
+    events[i]["price"]=price;
+
+  }
+
+}
+
+
+booking_price(bars,events);
+document.write(events[0]["price"] + '<br/>');
+document.write(events[1]["price"] + '<br/>');
+document.write(events[2]["price"] + '<br/>');
+
+//document.write(bars[indexbari]["pricePerHour"] + '<br/>');
+
+
+
+
+
 console.log(bars);
 console.log(events);
 console.log(actors);
