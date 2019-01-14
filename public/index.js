@@ -162,6 +162,9 @@ function booking_price(bars, events)
   var price=0;
   var coeffDecreasingPricing;
   var bari;
+
+  var priceDeductible;
+
   for(var i=0; i<events.length;i++)
   {
     coeffDecreasingPricing=1;
@@ -180,7 +183,15 @@ function booking_price(bars, events)
       coeffDecreasingPricing=0.1;
     }
 
-    price=events[i]["time"]*bari["pricePerHour"] + events[i]["persons"]*bari["pricePerPerson"]*coeffDecreasingPricing;
+    if(events[i]["deductibleReduction"])
+    {
+      priceDeductible=bari["pricePerPerson"]+1;
+    }
+    else
+    {
+      priceDeductible=bari["pricePerPerson"];
+    }
+    price=events[i]["time"]*bari["pricePerHour"] + events[i]["persons"]*priceDeductible*coeffDecreasingPricing;
     events[i]["price"]=price;
 
   }
@@ -193,17 +204,26 @@ function commission(events, treasuryValue)
 
   for(var i=0; i<events.length;i++)
   {
-    commission = events[i]["price"]*0.3;
 
-    events[i]["insurance"]=commission*0.5;
+    commission = events[i]["price"]*0.3;
     events[i]["treasury"]=treasuryValue;
+
+    if(events[i]["deductibleReduction"])
+    {
+      events[i]["insurance"]=commission*0.5-1;
+    }
+    else
+    {
+      events[i]["insurance"]=commission*0.5;
+    }
+
     events[i]["privateaser"]= commission - events[i]["treasury"] - events[i]["insurance"];
+
   }
 }
 
 booking_price(bars,events);
 commission(events, 1);
-
 
 
 //document.write(bars[indexbari]["pricePerHour"] + '<br/>');
