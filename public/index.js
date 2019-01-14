@@ -160,12 +160,27 @@ document.write(events[0]["price"] + '<br/>');*/
 function booking_price(bars, events)
 {
   var price=0;
+  var coeffDecreasingPricing;
   var bari;
   for(var i=0; i<events.length;i++)
   {
+    coeffDecreasingPricing=1;
     bari=bars.find(bar => bar.id === events[i]["barId"] );
 
-    price=events[i]["time"]*bari["pricePerHour"] + events[i]["persons"]*bari["pricePerPerson"];
+    if(events[i]["persons"]>60)
+    {
+      coeffDecreasingPricing=0.5;
+    }
+    else if(events[i]["persons"]>20)
+    {
+      coeffDecreasingPricing=0.3;
+    }
+    else if(events[i]["persons"]>10)
+    {
+      coeffDecreasingPricing=0.1;
+    }
+
+    price=events[i]["time"]*bari["pricePerHour"] + events[i]["persons"]*bari["pricePerPerson"]*coeffDecreasingPricing;
     events[i]["price"]=price;
 
   }
