@@ -187,11 +187,24 @@ function booking_price(bars, events)
 
 }
 
+function commission(events, treasuryValue)
+{
+  var commission;
+
+  for(var i=0; i<events.length;i++)
+  {
+    commission = events[i]["price"]*0.3;
+
+    events[i]["insurance"]=commission*0.5;
+    events[i]["treasury"]=treasuryValue;
+    events[i]["privateaser"]= commission - events[i]["treasury"] - events[i]["insurance"];
+  }
+}
 
 booking_price(bars,events);
-document.write(events[0]["price"] + '<br/>');
-document.write(events[1]["price"] + '<br/>');
-document.write(events[2]["price"] + '<br/>');
+commission(events, 1);
+
+
 
 //document.write(bars[indexbari]["pricePerHour"] + '<br/>');
 
