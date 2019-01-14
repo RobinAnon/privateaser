@@ -229,6 +229,44 @@ commission(events, 1);
 //document.write(bars[indexbari]["pricePerHour"] + '<br/>');
 
 
+function payActors(actors,events)
+{
+
+  var eventsi;
+
+  for(var i=0;i<actors.length;i++)
+  {
+    eventsi=events.find(event => event.id === actors[i]["eventId"] );
+
+    if(actors[i]["payment"][0]["who"]=='booker')
+    {
+      actors[i]["payment"][0]["amount"]=eventsi["price"];
+    }
+
+    else if(actors[i]["payment"][0]["who"]=='bar')
+    {
+      actors[i]["payment"][0]["amount"]=eventsi["price"]-eventsi["insurance"]-eventsi["treasury"]-eventsi["privateaser"];
+    }
+
+    else if(actors[i]["payment"][0]["who"]=='insurance')
+    {
+      actors[i]["payment"][0]["amount"]=eventsi["insurance"];
+    }
+
+    else if(actors[i]["payment"][0]["who"]=='treasury')
+    {
+      actors[i]["payment"][0]["amount"]=eventsi["treasury"];
+    }
+    else if(actors[i]["payment"][0]["who"]=='privateaser')
+    {
+     actors[i]["payment"][0]["amount"]=eventsi["privateaser"];
+    }
+
+  }
+}
+
+payActors(actors,events);
+
 
 
 
